@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:terapevt_console/answers.dart';
 import 'package:terapevt_console/question.dart';
 import 'dart:io';
@@ -5,6 +7,7 @@ import 'dart:io';
 abstract class Terapevt {
   int totalPoints;
   void runApp();
+  Future<void> spawnIsolateToRunApp();
 
   Terapevt(this.totalPoints);
 }
@@ -16,6 +19,16 @@ class TerapevtImpl implements Terapevt {
   @override
   String toString() {
     return '\x1B[33mСостояние объекта: $totalPoints\x1B[0m';
+  }
+
+  @override
+  Future<void> spawnIsolateToRunApp() async {
+    final mainReseivePort = ReceivePort();
+    await Isolate.spawn(_createdIsolate, mainReseivePort.sendPort);
+  }
+
+  void _createdIsolate(SendPort mainSendPort) {
+    runApp();
   }
 
   @override
@@ -66,6 +79,7 @@ class TerapevtImpl implements Terapevt {
       print('3) ${firstQuestion.answers[2].answerText}');
       stdout.write('Ваш ответ:');
       var firstLine = stdin.readLineSync();
+
       if (firstLine != null && firstLine.isNotEmpty) {
         var answer = int.tryParse(firstLine);
         if (answer != null && (answer == 1 || answer == 2 || answer == 3)) {
