@@ -12,5 +12,7 @@ class AnswersImpl implements Answers {
   @override
   String answerText;
 
-  AnswersImpl({required this.answerPoints, required this.answerText});
+  AnswersImpl({required this.answerPoints, required this.answerText})
+      : assert(answerPoints > -4),
+        assert(answerPoints < 4);
 }
