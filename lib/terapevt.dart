@@ -24,6 +24,9 @@ class TerapevtImpl implements Terapevt {
   @override
   Future<void> spawnIsolateToRunApp() async {
     final mainReseivePort = ReceivePort();
+
+    /// Создание изолята (потока), на который главный изолят делегирует
+    /// выполнение метода runApp()
     await Isolate.spawn(_createdIsolate, mainReseivePort.sendPort);
   }
 
@@ -33,6 +36,7 @@ class TerapevtImpl implements Terapevt {
 
   @override
   void runApp() {
+    /// Question and Answer Data
     var firstAnswerForFirstQuestion =
         AnswersImpl(answerPoints: 3, answerText: 'Да');
     var secondAnswerForFirstQuestion =
@@ -72,7 +76,9 @@ class TerapevtImpl implements Terapevt {
       thirdAnswerForThirdQuestion
     ], question: 'Ломило ли у вас конечности в последнии 5 дней?');
 
+    /// Endless Loop
     while (true) {
+      /// First Question
       print(firstQuestion.question);
       print('1) ${firstQuestion.answers[0].answerText}');
       print('2) ${firstQuestion.answers[1].answerText}');
@@ -96,6 +102,7 @@ class TerapevtImpl implements Terapevt {
         continue;
       }
 
+      /// Second Question
       print(secondQuestion.question);
       print('1) ${secondQuestion.answers[0].answerText}');
       print('2) ${secondQuestion.answers[1].answerText}');
@@ -118,6 +125,7 @@ class TerapevtImpl implements Terapevt {
         continue;
       }
 
+      /// Third Question
       print(thirdQuestion.question);
       print('1) ${thirdQuestion.answers[0].answerText}');
       print('2) ${thirdQuestion.answers[1].answerText}');
@@ -140,6 +148,7 @@ class TerapevtImpl implements Terapevt {
         continue;
       }
 
+      /// Total Result
       print('Ваш результат: $totalPoints');
       print('\x1B[34mНачинаем приложение с начала.\x1B[0m');
       totalPoints = 0;

@@ -12,6 +12,8 @@ class AnswersImpl implements Answers {
   @override
   String answerText;
 
+  /// Контракт срабатывает при создании экземпляра. Проверка получения
+  /// минимального и максимального количества очков за вопрос.
   AnswersImpl({required this.answerPoints, required this.answerText})
       : assert(answerPoints > -4),
         assert(answerPoints < 4);
