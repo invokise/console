@@ -8,7 +8,11 @@ abstract class Question {
 }
 
 class QuestionImpl implements Question {
-  QuestionImpl({required this.answers, required this.question});
+  /// Контракт срабатывает при создании экземпляра. Проверка на существования
+  /// вопросов и ответов
+  QuestionImpl({required this.answers, required this.question})
+      : assert(question.isNotEmpty),
+        assert(answers.isNotEmpty);
 
   @override
   List<Answers> answers;
